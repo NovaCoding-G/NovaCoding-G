@@ -7,8 +7,6 @@
 
 </div>
 
-⸻
-
 🚀 About Me
 
 I’m a 18-year-old student from Italy(Apulia) passionate about building technology that solves real problems.
