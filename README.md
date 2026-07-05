@@ -1,10 +1,12 @@
+
+<img src="CB582998-BDF4-4394-8270-6CB905342312.png"/>
+
 <div align="center">
 
 👋 Hi, I’m Gianpaolo
 
 🇮🇹 17 y/o Student • AI • Robotics • App & Web design • Startups
 
-<img src="CB582998-BDF4-4394-8270-6CB905342312.png"/>
 </div>
 
 ⸻
