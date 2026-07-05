@@ -5,8 +5,6 @@
 
 👋 Hi, I’m Gianpaolo
 
-🇮🇹 17 y/o Student • AI • Robotics • App & Web design • Startups
-
 </div>
 
 ⸻
