@@ -4,9 +4,9 @@
 
 🇮🇹 17 y/o Student • AI • Robotics • App & Web design • Startups
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=3B82F6&center=true&vCenter=true&width=700&lines=Building+real-world+projects.;Artificial+Intelligence.;Computer+Vision.;Robotics.;Always+learning." />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=3B82F6&center=true&vCenter=true&width=700&lines=Building+real-world+projects.;Artificial+Intellige[...]"
 <br>
-<img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:2563EB,100:06B6D4&text=Welcome%20to%20my%20GitHub&fontColor=ffffff&fontSize=42"/>
+<img src="CB582998-BDF4-4394-8270-6CB905342312.png"/>
 </div>
 
 ⸻
