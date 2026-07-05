@@ -5,6 +5,11 @@
 
 👋 Hi, I’m Gianpaolo
 
+
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=NovaCoding-G&label=Profile%20Views&color=f5b041&style=for-the-badge" alt="Profile Views"/>
+</p>
+
 </div>
 
 🚀 About Me
