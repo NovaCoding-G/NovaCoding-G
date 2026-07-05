@@ -32,7 +32,7 @@ I enjoy learning by creating projects from scratch and constantly improving my s
 
 <p align="center">
 <a href="https://skillicons.dev">
-<img src="https://skillicons.dev/icons?i=python,cpp,js,html,css,git,github,firebase,supabase,arduino,vscode,opencv"/>
+<img src="https://skillicons.dev/icons?i=python,cpp,js,html,css,git,arduino,vscode"/>
 </a>
 </p>
 
@@ -44,7 +44,6 @@ I enjoy learning by creating projects from scratch and constantly improving my s
 
 A platform designed to connect dog owners with trusted pet services through community features, local discovery and modern web technologies.
 
-⸻
 🧬 ImmunoMind
 
 Interactive immune system simulator built with Python to visualize immune responses, infections and treatments in real time.
