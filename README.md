@@ -33,7 +33,7 @@ I enjoy learning by creating projects from scratch and constantly improving my s
 
 <p align="center">
 <a href="https://skillicons.dev">
-<img src="https://skillicons.dev/icons?i=python,cpp,js,html,css,git,arduino,vscode"/>
+<img src="https://skillicons.dev/icons?i=python,cpp,js,html,css,git,arduino,vscode,nextjs,ts"/>
 </a>
 </p>
 
