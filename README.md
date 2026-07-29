@@ -54,6 +54,11 @@ Interactive immune system simulator built with Python to visualize immune respon
 A real-time microbial ecosystem simulator built in Python, featuring real microorganisms, biologically inspired growth models, 
 and customizable environmental conditions such as temperature, pH, and simulation speed.
 
+🛰️ BEACON
+
+An open-source platform for transparent comparison of 
+publicly available near-Earth object (NEO) data across independent sources.
+
 ⸻
 
 🔥 Contribution Streak
