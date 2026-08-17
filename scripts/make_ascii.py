@@ -47,8 +47,15 @@ def font_css(text: str) -> str:
     )
 
 
-def ascii_mark(cols: int = 46) -> list[str]:
+def ascii_mark(cols: int = 48) -> list[str]:
     img = Image.open(SOURCE).convert("L")
+    # Keep the celestial crescent and left star, but remove the raster wordmark:
+    # it is rebuilt as crisp SVG text in the hero so the identity stays legible.
+    width, height = img.size
+    pixels = img.load()
+    for y in range(int(height * 0.31), int(height * 0.67)):
+        for x in range(int(width * 0.39), width):
+            pixels[x, y] = 0
     bbox = img.point(lambda value: 255 if value > 18 else 0).getbbox()
     if not bbox:
         raise ValueError("NovaCoding source mark has no visible pixels")
@@ -98,6 +105,7 @@ def build_hero(lines: list[str]) -> str:
     labels = (
         "NOVACODING INDEPENDENT STUDIO APULIA ITALY SOFTWARE FOR RESEARCH "
         "AND THE PUBLIC WEB AI SECURITY PLANETARY DATA COMPUTATIONAL BIOLOGY "
+        "ASCII MARK RECONSTRUCTION nova CODING "
         + "".join(lines)
     )
     parts = [
@@ -113,23 +121,55 @@ def build_hero(lines: list[str]) -> str:
         'letter-spacing="1.8">NOVACODING / INDEPENDENT STUDIO</text>',
         '<text x="596" y="32" text-anchor="end" class="faint" '
         'font-family="NovaMono" font-size="9">APULIA · ITALY</text>',
+        '<text x="24" y="70" class="faint" font-family="NovaMono" font-size="7" '
+        'letter-spacing="1.1">ASCII MARK / RECONSTRUCTION</text>',
+        '<circle cx="211" cy="68" r="2.5" class="accent motion">'
+        '<animate attributeName="opacity" values=".2;1;.2" dur="1.4s" '
+        'repeatCount="indefinite"/></circle>',
     ]
-    x, y, line_height = 31, 76, 7.6
+    x, y, line_height = 25, 84, 8.4
     for index, line in enumerate(lines):
         safe = html.escape(line)
         parts.append(
             f'<text x="{x}" y="{y + index * line_height:.1f}" '
-            'class="muted" font-family="NovaMono" font-size="6.7" '
+            'class="muted" font-family="NovaMono" font-size="7.2" '
             f'xml:space="preserve">{safe}'
-            f'<animate attributeName="opacity" values="0;1" begin="{index * .045:.2f}s" '
-            'dur=".22s" fill="freeze"/></text>'
+            f'<animate attributeName="opacity" values="0;1" '
+            f'begin="{.35 + index * .12:.2f}s" dur=".45s" fill="freeze"/></text>'
+        )
+    # The wordmark resolves after the crescent has started drawing. This makes
+    # the ASCII animation read unmistakably as the NovaCoding logo.
+    parts.extend(
+        [
+            '<clipPath id="wordmark-reveal"><rect x="137" y="119" width="0" height="55">'
+            '<animate attributeName="width" from="0" to="145" begin="2.45s" '
+            'dur="1.8s" fill="freeze"/></rect></clipPath>',
+            '<text x="146" y="163" clip-path="url(#wordmark-reveal)" class="ink" '
+            'font-family="Georgia,Times New Roman,serif" font-size="39" '
+            'font-weight="700">nova</text>',
+            '<path d="M135 143l3 1.5 1.5 3 1.5-3 3-1.5-3-1.5-1.5-3-1.5 3z" '
+            'class="ink" opacity="0"><animate attributeName="opacity" from="0" '
+            'to="1" begin="2.25s" dur=".5s" fill="freeze"/></path>',
+            '<path d="M278 143l3 1.5 1.5 3 1.5-3 3-1.5-3-1.5-1.5-3-1.5 3z" '
+            'class="accent" opacity="0"><animate attributeName="opacity" from="0" '
+            'to="1" begin="4.1s" dur=".5s" fill="freeze"/></path>',
+        ]
+    )
+    for index, letter in enumerate("CODING"):
+        parts.append(
+            f'<text x="{149 + index * 20}" y="187" class="ink" '
+            'font-family="NovaMono" font-size="11" letter-spacing="1" opacity="0">'
+            f"{letter}<animate attributeName=\"opacity\" from=\"0\" to=\"1\" "
+            f'begin="{3.25 + index * .24:.2f}s" dur=".38s" fill="freeze"/></text>'
         )
     # Orbital system: three domains around one studio.
     parts.extend(
         [
-            '<g transform="translate(468 178)">',
-            '<ellipse rx="106" ry="69" fill="none" class="line" stroke-dasharray="2 7"/>',
-            '<ellipse rx="76" ry="111" fill="none" class="line" '
+            '<g transform="translate(486 181)" opacity="0">',
+            '<animate attributeName="opacity" from="0" to="1" begin="4.65s" '
+            'dur=".8s" fill="freeze"/>',
+            '<ellipse rx="88" ry="59" fill="none" class="line" stroke-dasharray="2 7"/>',
+            '<ellipse rx="62" ry="91" fill="none" class="line" '
             'stroke-dasharray="1 8" transform="rotate(31)"/>',
             '<circle r="28" fill="none" class="accent-line" stroke-width="1.2"/>',
             '<circle r="20" class="panel"/>',
@@ -137,17 +177,17 @@ def build_hero(lines: list[str]) -> str:
             'font-size="9" font-weight="700">NOVA</text>',
             '<text y="10" text-anchor="middle" class="faint" font-family="NovaMono" '
             'font-size="6">STUDIO/01</text>',
-            '<circle r="3.5" class="accent motion"><animateMotion dur="8s" '
-            'repeatCount="indefinite" path="M106 0A106 69 0 1 1 -106 0A106 69 0 1 1 106 0"/></circle>',
+            '<circle r="3.5" class="accent motion"><animateMotion dur="10s" '
+            'repeatCount="indefinite" path="M88 0A88 59 0 1 1 -88 0A88 59 0 1 1 88 0"/></circle>',
             '<circle r="2.5" class="muted motion"><animateMotion dur="11s" '
-            'repeatCount="indefinite" path="M65 38A76 111 31 1 1 -65 -38A76 111 31 1 1 65 38"/></circle>',
-            '<g transform="translate(-113 -52)"><circle r="4" class="accent"/>'
+            'repeatCount="indefinite" path="M53 31A62 91 31 1 1 -53 -31A62 91 31 1 1 53 31"/></circle>',
+            '<g transform="translate(-92 -45)"><circle r="4" class="accent"/>'
             '<text x="-8" y="-10" text-anchor="end" class="ink" font-family="NovaMono" '
             'font-size="8">AI SECURITY</text></g>',
-            '<g transform="translate(91 -76)"><circle r="4" class="accent"/>'
+            '<g transform="translate(72 -65)"><circle r="4" class="accent"/>'
             '<text x="-8" y="-10" text-anchor="end" class="ink" font-family="NovaMono" '
             'font-size="8">PLANETARY DATA</text></g>',
-            '<g transform="translate(88 83)"><circle r="4" class="accent"/>'
+            '<g transform="translate(69 72)"><circle r="4" class="accent"/>'
             '<text x="-8" y="16" text-anchor="end" class="ink" font-family="NovaMono" '
             'font-size="8">COMPUTATIONAL BIOLOGY</text></g>',
             "</g>",
