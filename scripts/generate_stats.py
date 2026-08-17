@@ -10,6 +10,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from collections import Counter, defaultdict
@@ -79,14 +80,35 @@ def graphql() -> dict:
             "User-Agent": "NovaCoding-profile-generator",
         },
     )
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            result = json.load(response)
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(f"GitHub GraphQL returned HTTP {error.code}") from error
-    except urllib.error.URLError:
+    result = None
+    last_http_error: urllib.error.HTTPError | None = None
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                result = json.load(response)
+            break
+        except urllib.error.HTTPError as error:
+            if error.code not in {502, 503, 504}:
+                raise RuntimeError(
+                    f"GitHub GraphQL returned HTTP {error.code}"
+                ) from error
+            last_http_error = error
+            if attempt < 4:
+                retry_after = error.headers.get("Retry-After")
+                delay = min(float(retry_after), 30) if retry_after else 2**attempt
+                print(
+                    f"GitHub GraphQL returned HTTP {error.code}; "
+                    f"retrying in {delay:g}s ({attempt + 1}/4)",
+                    file=sys.stderr,
+                )
+                time.sleep(delay)
+        except urllib.error.URLError:
+            break
+
+    if result is None:
         # Corporate and older Windows certificate stores can reject GitHub's
-        # otherwise-valid chain. gh uses its own trusted transport.
+        # otherwise-valid chain. The CLI is also a final fallback after all
+        # transient HTTP retries have been exhausted.
         try:
             completed = subprocess.run(
                 [
@@ -114,6 +136,11 @@ def graphql() -> dict:
             raise RuntimeError(f"GitHub CLI GraphQL request failed: {detail}") from error
         except json.JSONDecodeError as error:
             raise RuntimeError("GitHub CLI returned invalid JSON") from error
+        if last_http_error is not None:
+            print(
+                f"recovered from HTTP {last_http_error.code} via GitHub CLI",
+                file=sys.stderr,
+            )
     if result.get("errors"):
         messages = "; ".join(error["message"] for error in result["errors"])
         raise RuntimeError(f"GitHub GraphQL: {messages}")
